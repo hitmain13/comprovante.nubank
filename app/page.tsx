@@ -11,7 +11,7 @@ export default function Home() {
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-purple-600"></div>
-            <span className="text-xl font-bold">Nubank</span>
+            <span className="text-xl font-bold">Nuubank</span>
           </div>
           <nav className="hidden md:flex gap-6">
             <Link
@@ -77,7 +77,7 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button className="bg-white text-purple-600 hover:bg-gray-100">
-                    Quero ser Nubank
+                    Quero ser Nuubank
                   </Button>
                 </div>
               </div>
@@ -86,7 +86,7 @@ export default function Home() {
                   src="/placeholder.svg?height=550&width=450"
                   width={450}
                   height={550}
-                  alt="Smartphone com o aplicativo Nubank"
+                  alt="Smartphone com o aplicativo Nuubank"
                   className="rounded-lg object-cover"
                 />
               </div>
@@ -146,7 +146,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Por que escolher o Nubank?
+                  Por que escolher o Nuubank?
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Descubra as vantagens que fazem a diferença na sua vida financeira.
@@ -211,7 +211,7 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="mt-4 text-muted-foreground">
-                    "O Nubank mudou minha relação com o dinheiro. Agora tenho controle total das
+                    "O Nuubank mudou minha relação com o dinheiro. Agora tenho controle total das
                     minhas finanças."
                   </p>
                 </CardContent>
@@ -253,7 +253,7 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="mt-4 text-muted-foreground">
-                    "Os investimentos do Nubank são perfeitos para quem está começando. Simples e
+                    "Os investimentos do Nuubank são perfeitos para quem está começando. Simples e
                     rentáveis."
                   </p>
                 </CardContent>
@@ -266,7 +266,7 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
             <div className="space-y-3">
-              <h4 className="text-lg font-bold">Nubank</h4>
+              <h4 className="text-lg font-bold">Nuubank</h4>
               <ul className="space-y-2">
                 <li>
                   <Link
@@ -368,7 +368,7 @@ export default function Home() {
                     href="#"
                     className="text-sm hover:underline"
                   >
-                    meajuda@nubank.com.br
+                    meajuda@Nuubank.com.br
                   </Link>
                 </li>
                 <li>
@@ -383,7 +383,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-10 border-t border-gray-200/20 pt-6 text-center text-sm">
-            <p>© 2023 Nubank. Todos os direitos reservados.</p>
+            <p>© 2025 Nuubank. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>

