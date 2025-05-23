@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { CreditCard, Shield, Smartphone, Star, Users } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { CreditCard, Shield, Smartphone, Star, Users } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -14,24 +14,48 @@ export default function Home() {
             <span className="text-xl font-bold">Nubank</span>
           </div>
           <nav className="hidden md:flex gap-6">
-            <Link href="#" className="text-sm font-medium">
+            <Link
+              href="#"
+              className="text-sm font-medium"
+            >
               Início
             </Link>
-            <Link href="#" className="text-sm font-medium">
+            <Link
+              href="#"
+              className="text-sm font-medium"
+            >
               Conta Digital
             </Link>
-            <Link href="#" className="text-sm font-medium">
+            <Link
+              href="#"
+              className="text-sm font-medium"
+            >
               Cartão de Crédito
             </Link>
-            <Link href="#" className="text-sm font-medium">
+            <Link
+              href="#"
+              className="text-sm font-medium"
+            >
               Investimentos
             </Link>
-            <Link href="#" className="text-sm font-medium">
+            <Link
+              href="#"
+              className="text-sm font-medium"
+            >
               Sobre Nós
+            </Link>
+            <Link
+              href="/comprovante"
+              className="text-sm font-medium text-purple-600"
+            >
+              Comprovante
             </Link>
           </nav>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" className="hidden md:flex">
+            <Button
+              variant="ghost"
+              className="hidden md:flex"
+            >
               Login
             </Button>
             <Button className="bg-purple-600 hover:bg-purple-700">Abra sua conta</Button>
@@ -52,7 +76,9 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button className="bg-white text-purple-600 hover:bg-gray-100">Quero ser Nubank</Button>
+                  <Button className="bg-white text-purple-600 hover:bg-gray-100">
+                    Quero ser Nubank
+                  </Button>
                 </div>
               </div>
               <div className="flex justify-center">
@@ -73,7 +99,8 @@ export default function Home() {
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Nossos Produtos</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Conheça as soluções que estão transformando a vida financeira de milhões de brasileiros.
+                  Conheça as soluções que estão transformando a vida financeira de milhões de
+                  brasileiros.
                 </p>
               </div>
             </div>
@@ -106,7 +133,9 @@ export default function Home() {
                     <Star className="h-6 w-6 text-purple-600" />
                   </div>
                   <h3 className="text-xl font-bold">Investimentos</h3>
-                  <p className="text-muted-foreground">Comece a investir de forma simples e segura, direto do app.</p>
+                  <p className="text-muted-foreground">
+                    Comece a investir de forma simples e segura, direto do app.
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -116,7 +145,9 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Por que escolher o Nubank?</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  Por que escolher o Nubank?
+                </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Descubra as vantagens que fazem a diferença na sua vida financeira.
                 </p>
@@ -128,21 +159,27 @@ export default function Home() {
                   <Shield className="h-6 w-6 text-white" />
                 </div>
                 <h3 className="text-xl font-bold">Segurança</h3>
-                <p className="text-muted-foreground">Proteção avançada para suas transações e dados pessoais.</p>
+                <p className="text-muted-foreground">
+                  Proteção avançada para suas transações e dados pessoais.
+                </p>
               </div>
               <div className="flex flex-col items-center space-y-2 text-center">
                 <div className="rounded-full bg-purple-600 p-3">
                   <Smartphone className="h-6 w-6 text-white" />
                 </div>
                 <h3 className="text-xl font-bold">Praticidade</h3>
-                <p className="text-muted-foreground">Tudo o que você precisa em um só aplicativo, disponível 24/7.</p>
+                <p className="text-muted-foreground">
+                  Tudo o que você precisa em um só aplicativo, disponível 24/7.
+                </p>
               </div>
               <div className="flex flex-col items-center space-y-2 text-center">
                 <div className="rounded-full bg-purple-600 p-3">
                   <Users className="h-6 w-6 text-white" />
                 </div>
                 <h3 className="text-xl font-bold">Atendimento</h3>
-                <p className="text-muted-foreground">Suporte humano e eficiente para resolver suas questões.</p>
+                <p className="text-muted-foreground">
+                  Suporte humano e eficiente para resolver suas questões.
+                </p>
               </div>
             </div>
           </div>
@@ -174,7 +211,8 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="mt-4 text-muted-foreground">
-                    "O Nubank mudou minha relação com o dinheiro. Agora tenho controle total das minhas finanças."
+                    "O Nubank mudou minha relação com o dinheiro. Agora tenho controle total das
+                    minhas finanças."
                   </p>
                 </CardContent>
               </Card>
@@ -194,7 +232,8 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="mt-4 text-muted-foreground">
-                    "Atendimento excelente e app super intuitivo. Nunca mais volto para bancos tradicionais."
+                    "Atendimento excelente e app super intuitivo. Nunca mais volto para bancos
+                    tradicionais."
                   </p>
                 </CardContent>
               </Card>
@@ -214,7 +253,8 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="mt-4 text-muted-foreground">
-                    "Os investimentos do Nubank são perfeitos para quem está começando. Simples e rentáveis."
+                    "Os investimentos do Nubank são perfeitos para quem está começando. Simples e
+                    rentáveis."
                   </p>
                 </CardContent>
               </Card>
@@ -229,17 +269,26 @@ export default function Home() {
               <h4 className="text-lg font-bold">Nubank</h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     Sobre nós
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     Carreiras
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     Imprensa
                   </Link>
                 </li>
@@ -249,17 +298,26 @@ export default function Home() {
               <h4 className="text-lg font-bold">Produtos</h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     Conta Digital
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     Cartão de Crédito
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     Investimentos
                   </Link>
                 </li>
@@ -269,17 +327,26 @@ export default function Home() {
               <h4 className="text-lg font-bold">Ajuda</h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     Central de Ajuda
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     Comunidade
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     Segurança
                   </Link>
                 </li>
@@ -289,17 +356,26 @@ export default function Home() {
               <h4 className="text-lg font-bold">Contato</h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     0800 608 6236
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     meajuda@nubank.com.br
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-sm hover:underline">
+                  <Link
+                    href="#"
+                    className="text-sm hover:underline"
+                  >
                     Redes Sociais
                   </Link>
                 </li>
