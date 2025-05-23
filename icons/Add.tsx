@@ -12,7 +12,7 @@ export default function AddIcon() {
         cy="256"
         r="240"
         stroke="#fff"
-        stroke-width="32"
+        strokeWidth="32"
         fill="none"
       />
       <line
@@ -21,8 +21,8 @@ export default function AddIcon() {
         x2="256"
         y2="352"
         stroke="#fff"
-        stroke-width="64"
-        stroke-linecap="round"
+        strokeWidth="64"
+        strokeLinecap="round"
       />
       <line
         x1="160"
@@ -30,8 +30,8 @@ export default function AddIcon() {
         x2="352"
         y2="256"
         stroke="#fff"
-        stroke-width="64"
-        stroke-linecap="round"
+        strokeWidth="64"
+        strokeLinecap="round"
       />
     </svg>
   )
