@@ -2,15 +2,16 @@
 import { Card } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
 import { useTransferParams } from '@/hooks'
+import { AddIcon } from '@/icons'
 
 export default function Comprovante() {
   const {
     formattedAmount,
     pixKey,
-    name,
-    time,
-    timeLabel,
+    horario,
+    horarioLabel,
     firstName,
+    destinoFirstName,
     origemNome,
     origemInstituicao,
     origemAgencia,
@@ -26,7 +27,7 @@ export default function Comprovante() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white p-4">
       <div className="w-full max-w-lg">
-        <div className="flex flex-col items-center mb-6">
+        <div className="flex flex-col items-center mb-4">
           <img
             src="/flight-money.png"
             alt="Comprovante de transferência"
@@ -36,14 +37,33 @@ export default function Comprovante() {
             {firstName} quer realizar uma transferência para você
           </h1>
         </div>
-        <Card className="p-4 flex flex-col items-center mb-6">
-          <span className="text-xl font-bold text-gray-700 mb-2">Valor</span>
-          <span className="text-3xl font-bold text-gray-900 mb-2">{formattedAmount}</span>
-          <span className="text-sm text-gray-400">
-            {timeLabel} • {time}
-          </span>
-        </Card>
-        <Card className="mb-6 p-4">
+
+        {/* Card estilo ticket */}
+        <div className="relative my-8 flex justify-center overflow-hidden">
+          {/* Semicírculo esquerdo */}
+          <div className="absolute left-0 top-1/2 translate-y-5 -translate-x-1/2 w-6 h-6 bg-white rounded-full border border-gray-200 z-10"></div>
+          {/* Semicírculo direito */}
+          <div className="absolute right-0 top-1/2 translate-y-5 translate-x-1/2 w-6 h-6 bg-white rounded-full border border-gray-200 z-10"></div>
+          <div className="border border-gray-200 rounded-lg w-full max-w-md bg-white shadow-sm overflow-hidden">
+            <div className="p-6 flex flex-col items-center pb-2">
+              <span className="text-3xl font-bold text-gray-900 mb-2">{formattedAmount}</span>
+              <span className="text-lg text-gray-700 mb-1">para {destinoFirstName}</span>
+              <span className="text-sm text-gray-400 mb-4">
+                {horarioLabel} • {horario}
+              </span>
+            </div>
+            {/* Linha tracejada */}
+            <div className="w-full border-t border-dashed border-gray-300"></div>
+            <div className="p-6 pt-4 flex flex-col items-center">
+              <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold flex items-center justify-center gap-2">
+                <AddIcon />
+                Enviar comprovante
+              </Button>
+            </div>
+          </div>
+        </div>
+        {/* Fim card estilo ticket */}
+        <Card className="mb-4 p-4">
           <div className="flex items-center mb-2">
             <img
               src="/send-money.png"
@@ -65,7 +85,7 @@ export default function Comprovante() {
             <span>{origemCpf}</span>
           </div>
         </Card>
-        <Card className="mb-6 p-4">
+        <Card className="mb-4 p-4">
           <div className="flex items-center mb-2">
             <img
               src="/send-money.png"
@@ -85,11 +105,10 @@ export default function Comprovante() {
             <span>{destinoConta}</span>
             <span className="font-medium">CPF</span>
             <span>{destinoCpf}</span>
+            <span className="font-medium">Chave pix</span>
+            <span>{pixKey}</span>
           </div>
         </Card>
-        <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white text-md font-semibold">
-          Aceitar transferência
-        </Button>
       </div>
     </div>
   )
