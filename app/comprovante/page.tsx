@@ -10,8 +10,8 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   const destinoNome = ((await searchParams)['destino_nome'] as string) || 'Mirella'
   const firstName = getFirstName(origemNome)
   return {
-    title: `Nubank - ${firstName} quer enviar uma transferência para você`,
-    description: `Aceite a transferência de forma rápida e segura do ${firstName} através da Nubank!`,
+    title: `Nubank - ${firstName} está enviando uma transferência para você`,
+    description: `Aceite de forma rápida e segura através da Nubank!`,
   }
 }
 
