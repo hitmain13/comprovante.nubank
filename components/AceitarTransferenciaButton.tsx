@@ -25,7 +25,7 @@ export function AceitarTransferenciaButton() {
   const [loading, setLoading] = useState(false)
   const [loadingStep, setLoadingStep] = useState(0)
   const [transferenciaAceita, setTransferenciaAceita] = useState(false)
-  const [showToast, setShowToast] = useState(true)
+  const [showToast, setShowToast] = useState(false)
   const [fadeText, setFadeText] = useState(true)
   const [buttonText, setButtonText] = useState('Aceitar transferência')
   const [showTopToast, setShowTopToast] = useState(false)
