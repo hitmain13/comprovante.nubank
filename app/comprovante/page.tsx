@@ -149,7 +149,7 @@ export default async function Comprovante({ searchParams }: { searchParams: Sear
         </Card>
       </div>
       {/* Rodapé comprovante */}
-      <div className="w-full max-w-lg mx-auto mt-8 text-xs text-gray-800">
+      <div className="w-full max-w-lg mx-auto mt-8 text-xs text-gray-800 mb-24">
         <div className="mb-1 font-semibold">Nu Pagamentos S.A. - Instituição de Pagamento</div>
         <div className="mb-2">CNPJ 18.236.120/0001-58</div>
         <div className="mb-1 font-semibold">ID da transação: {transacaoId}</div>
