@@ -1,0 +1,15 @@
+/comprovante?
+valor=1234.56
+&pix=11999999999
+&horario=14:30
+&origem_nome=João+Silva
+&origem_instituicao=ITAÚ+UNIBANCO
+&origem_agencia=1234
+&origem_conta=987654-3
+&origem_cpf=123.456.789-00
+&destino_nome=Maria+Oliveira
+&destino_instituicao=NU+PAGAMENTOS+-+IP
+&destino_agencia=0001
+&destino_conta=112233-4
+&destino_cpf=987.654.321-00
+&transacao_id=ABC123XYZ987

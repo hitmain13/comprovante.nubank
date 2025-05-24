@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Comprovante from '../page'
-import { decodeReversibleHash } from '@/helpers/hash'
+import { decodeReversibleHash } from '@/lib'
 
 // Simulação de um banco de dados em memória
 // O hash é a chave, o valor é o objeto de parâmetros
@@ -8,7 +8,7 @@ const hashDB: Record<string, Record<string, string>> = {
   // Exemplo: hash gerado para valor=1234.56&pix=11999999999&origem_nome=João
   '4f2k9z1': {
     valor: '1234.56',
-    pix: '11999999999',
+    pix: '11999999991',
     origem_nome: 'João',
     destino_nome: 'Maria',
     horario: '14:30',

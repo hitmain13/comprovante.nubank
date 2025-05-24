@@ -15,6 +15,24 @@ describe('Hash Helpers', () => {
     expect(decoded).toEqual(params)
   })
 
+  it('gera e decodifica hash reversível com mais de 5 querystrings', () => {
+    const paramsMany = {
+      valor: '1234.56',
+      pix: '11999999999',
+      origem_nome: 'João',
+      destino_nome: 'Maria',
+      agencia: '0001',
+      conta: '123456-7',
+      cpf: '123.456.789-00',
+      banco: 'NUBANK',
+      transacao_id: 'ABC123XYZ987',
+    }
+    const hash = generateReversibleHash(paramsMany)
+    expect(typeof hash).toBe('string')
+    const decoded = decodeReversibleHash(hash)
+    expect(decoded).toEqual(paramsMany)
+  })
+
   it('retorna null ao decodificar hash reversível inválido', () => {
     expect(decodeReversibleHash('hashinvalido')).toBeNull()
     expect(decodeReversibleHash('')).toBeNull()

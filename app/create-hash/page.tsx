@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { generateReversibleHash, generatePersistedHash } from '@/helpers/hash'
+import { generateReversibleHash, generatePersistedHash } from '@/lib/hash'
 
 function parseQueryString(raw: string): Record<string, string> {
   // Remove tudo antes de ? se for uma URL
@@ -11,7 +11,14 @@ function parseQueryString(raw: string): Record<string, string> {
   }
   // Remove quebras de linha e espaços extras
   query = query.replace(/\n|\r/g, '').replace(/\s+/g, '')
-  return Object.fromEntries(new URLSearchParams(query))
+  // Garante que não há & duplicados ou finais
+  query = query.replace(/&&+/g, '&').replace(/^&+|&+$/g, '')
+  // Remove possíveis ? extras
+  query = query.replace(/\?+/g, '')
+  // Converte para objeto plano de strings
+  const params = Object.fromEntries(new URLSearchParams(query))
+  // Garante que todos os valores são string
+  return Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)]))
 }
 
 export default function HashGenerator() {

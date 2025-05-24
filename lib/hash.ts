@@ -1,10 +1,10 @@
 export function generateReversibleHash(params: Record<string, string>): string {
-  return btoa(encodeURIComponent(JSON.stringify(params)))
+  return encodeURIComponent(btoa(encodeURIComponent(JSON.stringify(params))))
 }
 
 export function decodeReversibleHash(hash: string): Record<string, string> | null {
   try {
-    const json = decodeURIComponent(atob(hash))
+    const json = decodeURIComponent(atob(decodeURIComponent(hash)))
     return JSON.parse(json)
   } catch {
     return null
