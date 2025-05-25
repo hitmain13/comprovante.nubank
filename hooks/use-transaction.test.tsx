@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useComprovante } from './use-comprovante'
+import { useTransaction } from './use-transaction'
 import * as api from '@/lib/api'
 
 const mockData = {
@@ -19,14 +19,14 @@ const mockData = {
   transacaoId: 'K',
 }
 
-describe('useComprovante', () => {
+describe('useTransaction', () => {
   beforeEach(() => {
     jest.spyOn(api, 'apiFetch').mockReset()
   })
 
   it('busca dados com sucesso', async () => {
     jest.spyOn(api, 'apiFetch').mockResolvedValueOnce(mockData)
-    const { result } = renderHook(() => useComprovante('hash'))
+    const { result } = renderHook(() => useTransaction('hash'))
     await act(async () => {})
     expect(result.current.data).toEqual(mockData)
     expect(result.current.loading).toBe(false)
@@ -35,13 +35,13 @@ describe('useComprovante', () => {
 
   it('não busca se hash for nulo', async () => {
     const spy = jest.spyOn(api, 'apiFetch')
-    renderHook(() => useComprovante(null))
+    renderHook(() => useTransaction(null))
     expect(spy).not.toHaveBeenCalled()
   })
 
   it('seta erro em caso de falha', async () => {
     jest.spyOn(api, 'apiFetch').mockRejectedValueOnce(new Error('fail'))
-    const { result } = renderHook(() => useComprovante('hash'))
+    const { result } = renderHook(() => useTransaction('hash'))
     await act(async () => {})
     expect(result.current.error).toBe('fail')
     expect(result.current.data).toBeNull()
@@ -55,7 +55,7 @@ describe('useComprovante', () => {
           resolve = r
         })
     )
-    const { result } = renderHook(() => useComprovante('hash'))
+    const { result } = renderHook(() => useTransaction('hash'))
     expect(result.current.loading).toBe(true)
     act(() => {
       resolve(mockData)
@@ -66,7 +66,7 @@ describe('useComprovante', () => {
 
   it('busca novamente se hash mudar', async () => {
     const spy = jest.spyOn(api, 'apiFetch').mockResolvedValue(mockData)
-    const { rerender } = renderHook(({ hash }) => useComprovante(hash), {
+    const { rerender } = renderHook(({ hash }) => useTransaction(hash), {
       initialProps: { hash: 'a' },
     })
     rerender({ hash: 'b' })
@@ -76,14 +76,14 @@ describe('useComprovante', () => {
 
   it('lida com resposta vazia', async () => {
     jest.spyOn(api, 'apiFetch').mockResolvedValueOnce({} as any)
-    const { result } = renderHook(() => useComprovante('hash'))
+    const { result } = renderHook(() => useTransaction('hash'))
     await act(async () => {})
     expect(result.current.data).toEqual({})
   })
 
   it('lida com resposta incompleta', async () => {
     jest.spyOn(api, 'apiFetch').mockResolvedValueOnce({ valor: '1' } as any)
-    const { result } = renderHook(() => useComprovante('hash'))
+    const { result } = renderHook(() => useTransaction('hash'))
     await act(async () => {})
     expect(result.current.data).toEqual({ valor: '1' })
   })
@@ -97,7 +97,7 @@ describe('useComprovante', () => {
           resolve = r
         })
     )
-    const { result } = renderHook(() => useComprovante('hash'))
+    const { result } = renderHook(() => useTransaction('hash'))
     expect(result.current.loading).toBe(true)
     act(() => {
       jest.advanceTimersByTime(1000)
@@ -110,14 +110,14 @@ describe('useComprovante', () => {
 
   it('lida com requisição rápida', async () => {
     jest.spyOn(api, 'apiFetch').mockResolvedValueOnce(mockData)
-    const { result } = renderHook(() => useComprovante('hash'))
+    const { result } = renderHook(() => useTransaction('hash'))
     await act(async () => {})
     expect(result.current.loading).toBe(false)
   })
 
   it('faz cleanup ao desmontar', async () => {
     jest.spyOn(api, 'apiFetch').mockResolvedValueOnce(mockData)
-    const { unmount } = renderHook(() => useComprovante('hash'))
+    const { unmount } = renderHook(() => useTransaction('hash'))
     unmount()
     // Não há efeito colateral, mas coverage de unmount
     expect(true).toBe(true)

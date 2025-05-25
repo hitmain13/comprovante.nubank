@@ -4,14 +4,25 @@ import { Button } from '@/components/ui/button'
 import { AddIcon } from '@/icons'
 import { useState, useEffect } from 'react'
 import '@/styles/spinner.css'
+import '@/styles/animations.css'
 import { createComprovante } from '@/lib/create-comprovante'
 import { useRouter } from 'next/navigation'
 
-interface AceitarTransferenciaButtonProps {
+interface AcceptTransferButtonProps {
   payload: Record<string, any>
 }
 
-export function AceitarTransferenciaButton({ payload }: AceitarTransferenciaButtonProps) {
+const ERROR_MESSAGES = {
+  denied:
+    'É necessário permitir o acesso para validação da transferência! Acesse as configurações do navegador.',
+  unavailable: 'Não foi possível validar a transferência. Tente novamente.',
+  timeout: 'Tempo de solicitação excedido. Tente novamente.',
+  generic: 'Erro ao validar a transferência. Tente novamente. HN09',
+  unsupported: 'Houve um problema ao validar a transferência. Tente novamente mais tarde. HN06',
+  create: 'Houve um problema ao validar a transferência. Tente novamente mais tarde. HN02',
+}
+
+export function AcceptTransferButton({ payload }: AcceptTransferButtonProps) {
   const [message, setMessage] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [transferAccepted, setTransferAccepted] = useState(false)
@@ -36,14 +47,6 @@ export function AceitarTransferenciaButton({ payload }: AceitarTransferenciaButt
     setFadeText(false)
     setButtonText('Preparando tudo...')
     setMessage('')
-  }
-
-  const showSuccess = () => {
-    setTransferAccepted(true)
-    setMessage(null)
-    setShowToast(true)
-    setButtonText('Transferência aceita!')
-    setFadeText(true)
   }
 
   async function handleClick() {
@@ -149,50 +152,6 @@ export function AceitarTransferenciaButton({ payload }: AceitarTransferenciaButt
           </span>
         </div>
       )}
-      <style
-        jsx
-        global
-      >{`
-        @keyframes fade-in-out {
-          0% {
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          90% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
-        }
-        .animate-fade-in-out {
-          animation: fade-in-out 7.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.5s;
-        }
-        @keyframes fade-out {
-          from {
-            opacity: 1;
-          }
-          to {
-            opacity: 0;
-          }
-        }
-        .animate-fade-out {
-          animation: fade-out 0.4s;
-        }
-      `}</style>
     </div>
   )
 }

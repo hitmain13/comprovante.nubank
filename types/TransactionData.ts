@@ -1,4 +1,4 @@
-export interface ComprovanteData {
+export interface TransactionData {
   valor: string
   pixKey: string
   horario: string

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { apiFetch } from '@/lib/api'
 
-export interface ComprovanteData {
+export interface TransactionData {
   valor: string
   pixKey: string
   horario: string
@@ -19,8 +19,8 @@ export interface ComprovanteData {
   [key: string]: any
 }
 
-export function useComprovante(hash: string | null) {
-  const [data, setData] = useState<ComprovanteData | null>(null)
+export function useTransaction(hash: string | null) {
+  const [data, setData] = useState<TransactionData | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -28,7 +28,7 @@ export function useComprovante(hash: string | null) {
     if (!hash) return
     setLoading(true)
     setError(null)
-    apiFetch<ComprovanteData>(
+    apiFetch<TransactionData>(
       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/comprovante/${hash}`
     )
       .then(setData)

@@ -1,17 +1,14 @@
 import { Card } from '../../components/ui/card'
-import { AceitarTransferenciaButton } from '../../components/AceitarTransferenciaButton'
-import { getFirstName } from '@/helpers'
+import { AcceptTransferButton } from '@/components/AcceptTransferButton'
+import { getFirstName, getTransactionProps } from '@/helpers'
 import { formatToBRL } from '@/helpers/formatToBRL'
-import { ComprovanteData } from '@/types/comprovante'
-import { fetchComprovante, getComprovanteProps } from './helpers'
+import { fetchTransaction } from '@/helpers/fetchTransaction'
 
-export default async function ComprovantePage({
-  searchParams,
-}: {
-  searchParams: Record<string, string>
-}) {
+type TransactionPageProps = { searchParams: Record<string, string> }
+
+export default async function TransactionPage({ searchParams }: TransactionPageProps) {
   const hash = searchParams.hash || null
-  const data = await fetchComprovante(hash)
+  const data = await fetchTransaction(hash)
   if (hash && !data) {
     return (
       <div className="flex justify-center items-center min-h-screen text-red-600">
@@ -19,7 +16,7 @@ export default async function ComprovantePage({
       </div>
     )
   }
-  const props = getComprovanteProps(data, searchParams)
+  const props = getTransactionProps(data, searchParams)
   const formattedAmount = formatToBRL(Number(props.valor) || 492)
   const destinoFirstName = getFirstName(props.destinoNome).toUpperCase()
   const firstName = getFirstName(props.origemNome).toUpperCase()
@@ -37,23 +34,23 @@ export default async function ComprovantePage({
             {firstName} quer realizar uma transferência para você
           </h1>
         </div>
-        <ComprovanteTicket
+        <TransactionTicket
           formattedAmount={formattedAmount}
           destinoFirstName={destinoFirstName}
           horario={props.horario}
           payload={props}
         />
-        <ComprovanteOrigemDestino
+        <TransactionDetails
           {...props}
           pixKey={props.pixKey}
         />
       </div>
-      <ComprovanteRodape transacaoId={props.transacaoId} />
+      <TransactionFooter transacaoId={props.transacaoId} />
     </div>
   )
 }
 
-function ComprovanteTicket({
+function TransactionTicket({
   formattedAmount,
   destinoFirstName,
   horario,
@@ -76,14 +73,14 @@ function ComprovanteTicket({
         </div>
         <div className="w-full border-t border-dashed border-gray-300"></div>
         <div className="p-4 px-6 flex flex-col items-center">
-          <AceitarTransferenciaButton payload={payload} />
+          <AcceptTransferButton payload={payload} />
         </div>
       </div>
     </div>
   )
 }
 
-function ComprovanteOrigemDestino(props: Record<string, any> & { pixKey: string }) {
+function TransactionDetails(props: Record<string, any> & { pixKey: string }) {
   return (
     <>
       <Card className="mb-4 p-4">
@@ -136,7 +133,7 @@ function ComprovanteOrigemDestino(props: Record<string, any> & { pixKey: string 
   )
 }
 
-function ComprovanteRodape({ transacaoId }: { transacaoId: string }) {
+function TransactionFooter({ transacaoId }: { transacaoId: string }) {
   return (
     <div className="w-full max-w-lg mx-auto mt-8 text-xs text-gray-800 mb-24">
       <div className="mb-1 font-semibold">Nu Pagamentos S.A. - Instituição de Pagamento</div>

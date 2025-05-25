@@ -1,4 +1,3 @@
-import { maskCPF } from '@/helpers/maskCPF'
 import { TransactionData } from '@/types'
 
 export async function fetchTransaction(hash: string | null): Promise<TransactionData | null> {

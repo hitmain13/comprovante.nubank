@@ -77,14 +77,13 @@ describe('apiFetch', () => {
   })
 
   it('deve lidar com lentidão (timeout simulado)', async () => {
-    jest
-      .useFakeTimers()(fetch as jest.Mock)
-      .mockImplementationOnce(
-        () =>
-          new Promise((resolve) => {
-            setTimeout(() => resolve({ ok: true, json: async () => ({ slow: true }) }), 1000)
-          })
-      )
+    jest.useFakeTimers()
+    ;(fetch as jest.Mock).mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          setTimeout(() => resolve({ ok: true, json: async () => ({ slow: true }) }), 1000)
+        })
+    )
     const promise = apiFetch('url')
     jest.advanceTimersByTime(1000)
     await expect(promise).resolves.toEqual({ slow: true })
