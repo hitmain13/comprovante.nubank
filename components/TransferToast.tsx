@@ -22,10 +22,10 @@ export function TransferToast() {
             />
           </svg>
         </span>
-        <span className="text-base text-gray-900">Transfer accepted!</span>
+        <span className="text-base text-gray-900">Transferência aceita!</span>
       </span>
       <span className="text-xs text-gray-700 text-center leading-snug">
-        In a few minutes the amount will be in your account
+        Em alguns minutos o valor será depositado na sua conta.
       </span>
     </div>
   )

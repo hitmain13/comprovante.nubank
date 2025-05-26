@@ -9,7 +9,7 @@ export function useAcceptTransfer() {
   const [transactionAccepted, setTransactionAccepted] = useState(false)
   const [showToast, setShowToast] = useState(false)
   const [fadeText, setFadeText] = useState(true)
-  const [buttonText, setButtonText] = useState('Accept transfer')
+  const [buttonText, setButtonText] = useState('Aceitar transferência')
   const [showPermissionNotification, setShowPermissionNotification] = useState(false)
   const isMobile = useIsMobile()
 
@@ -61,17 +61,19 @@ export function useAcceptTransfer() {
       setTransactionAccepted(true)
       setMessage(null)
       setTimeout(() => setShowToast(true), 400)
-      updateButtonTextWithFade('Transfer accepted!', 200)
+      updateButtonTextWithFade('Transferência aceita!', 200)
     })
   }, [executeLoadingSteps, updateButtonTextWithFade])
 
   // Quando há erro na obtenção da localização
   const handleLocationError = useCallback((error: GeolocationPositionError) => {
-    setMessage('To accept the transfer, allow access in your browser settings and reload the page.')
+    setMessage(
+      'Para aceitar a transferência, permita o acesso nas configurações do seu navegador e recarregue a página.'
+    )
     setLoading(false)
     setFadeText(true)
-    setButtonText('Accept transfer')
-    console.error('Error getting location:', error)
+    setButtonText('Aceitar transferência')
+    console.error('Erro ao obter a localização:', error)
   }, [])
 
   // Obtém a geolocalização
@@ -90,21 +92,21 @@ export function useAcceptTransfer() {
   // Handler do clique do botão
   const handleClick = useCallback(async () => {
     if (!navigator.permissions || !navigator.geolocation) {
-      setMessage('Could not validate the transfer. Please try again later.')
+      setMessage('Não foi possível validar a transferência. Por favor, tente novamente mais tarde.')
       return
     }
     const result = await navigator.permissions.query({ name: 'geolocation' })
     if (result.state === 'granted') {
       getGeolocation()
     } else if (result.state === 'prompt') {
-      setMessage('To accept, you must allow validation of the transfer.')
+      setMessage('Para aceitar, é necessário permitir a validação da transferência.')
       if (isMobile && !showPermissionNotification) {
         setShowPermissionNotification(true)
       }
       getGeolocation()
     } else if (result.state === 'denied') {
       setMessage(
-        'To accept the transfer, allow access in your browser settings and reload the page.'
+        'Para aceitar a transferência, permita o acesso nas configurações do seu navegador e recarregue a página.'
       )
     }
   }, [getGeolocation, isMobile, showPermissionNotification])

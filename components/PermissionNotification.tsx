@@ -23,7 +23,9 @@ export function PermissionNotification() {
           strokeWidth="2"
         />
       </svg>
-      <span>Allow location access only to validate the transfer.</span>
+      <span>
+        Para aceitar a transferência, é necessário permitir para a validação da transação.
+      </span>
     </div>
   )
 }
