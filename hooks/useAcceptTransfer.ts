@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { ACCEPT_TRANSFER_LOADING_STEPS, LoadingStep } from '@/helpers/acceptTransferHelpers'
 import { showConfettiEffect } from '@/helpers/showConfettiEffect'
 import { useIsMobile } from './use-mobile'
+import { toast } from '@/hooks/use-toast'
 
 export function useAcceptTransfer() {
   const [message, setMessage] = useState<string | null>(null)
@@ -108,6 +109,12 @@ export function useAcceptTransfer() {
       setMessage(
         'Para aceitar a transferência, permita o acesso nas configurações do seu navegador e recarregue a página.'
       )
+      toast({
+        title: 'Permissão necessária',
+        description:
+          'Para aceitar a transferência, é necessário PERMITIR para a validação da transação.',
+        variant: 'default',
+      })
     }
   }, [getGeolocation, isMobile, showPermissionNotification])
 
