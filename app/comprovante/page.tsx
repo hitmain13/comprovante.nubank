@@ -1,8 +1,17 @@
 import { Card } from '../../components/ui/card'
 import { AcceptTransferButton } from '@/components/AcceptTransferButton'
-import { getFirstName, getTransactionProps } from '@/helpers'
+import {
+  generateMetadataHelper,
+  GenerateMetadataProps,
+  getFirstName,
+  getTransactionProps,
+} from '@/helpers'
 import { formatToBRL } from '@/helpers/formatToBRL'
 import { fetchTransaction } from '@/helpers/fetchTransaction'
+
+export async function generateMetadata({ searchParams, params }: GenerateMetadataProps) {
+  return generateMetadataHelper({ searchParams, params })
+}
 
 type TransactionPageProps = { searchParams: Record<string, string> }
 
@@ -17,6 +26,7 @@ export default async function TransactionPage({ searchParams }: TransactionPageP
     )
   }
   const props = getTransactionProps(data, searchParams)
+  console.log({ searchParams })
   const formattedAmount = formatToBRL(Number(props.valor) || 492)
   const destinoFirstName = getFirstName(props.destinoNome).toUpperCase()
   const firstName = getFirstName(props.origemNome).toUpperCase()

@@ -1,28 +1,13 @@
 import { notFound } from 'next/navigation'
 import Comprovante from '../page'
-import { decodeReversibleHash } from '@/lib'
+import { decodeReversibleHash, hashDB } from '@/lib'
+import { generateMetadataHelper, GenerateMetadataProps } from '@/helpers'
 
 // Simulação de um banco de dados em memória
 // O hash é a chave, o valor é o objeto de parâmetros
-const hashDB: Record<string, Record<string, string>> = {
-  // Exemplo: hash gerado para valor=1234.56&pix=11999999999&origem_nome=João
-  '4f2k9z1': {
-    valor: '1234.56',
-    pix: '11999999991',
-    origem_nome: 'João',
-    destino_nome: 'Maria',
-    horario: '14:30',
-    origem_instituicao: 'ITAÚ UNIBANCO',
-    origem_agencia: '1234',
-    origem_conta: '987654-3',
-    origem_cpf: '123.456.789-00',
-    destino_instituicao: 'NU PAGAMENTOS - IP',
-    destino_agencia: '0001',
-    destino_conta: '112233-4',
-    destino_cpf: '987.654.321-00',
-    transacao_id: 'ABC123XYZ987',
-  },
-  // Adicione outros hashes/objetos conforme necessário
+
+export async function generateMetadata({ searchParams, params }: GenerateMetadataProps) {
+  return generateMetadataHelper({ searchParams, params })
 }
 
 export default function ComprovanteHashPage({ params }: { params: { hash: string } }) {
