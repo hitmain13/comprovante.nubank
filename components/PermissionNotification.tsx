@@ -2,7 +2,7 @@ import React from 'react'
 
 export function PermissionNotification() {
   return (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 flex items-center gap-2 rounded-xl shadow-lg bg-purple-600 text-white text-sm animate-fade-in-out max-w-xs">
+    <div className="fixed top-4 left-1/2 w-full -translate-x-1/2 z-50 px-4 py-2 flex items-center gap-2 rounded-xl shadow-lg bg-purple-700 text-white text-sm animate-fade-in-out max-w-xs">
       <svg
         className="w-12 h-12 text-white opacity-80"
         fill="none"

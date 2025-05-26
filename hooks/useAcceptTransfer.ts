@@ -61,8 +61,8 @@ export function useAcceptTransfer() {
     executeLoadingSteps(() => {
       setTransactionAccepted(true)
       setMessage(null)
-      setTimeout(() => setShowToast(true), 400)
-      updateButtonTextWithFade('Transferência aceita!', 200)
+      setTimeout(() => setShowToast(true), 200)
+      updateButtonTextWithFade('Transferência aceita!', 500)
     })
   }, [executeLoadingSteps, updateButtonTextWithFade])
 
@@ -121,7 +121,7 @@ export function useAcceptTransfer() {
   // Efeito para esconder o toast após um tempo
   useEffect(() => {
     if (showToast) {
-      const timer = setTimeout(() => setShowToast(false), 7000)
+      const timer = setTimeout(() => setShowToast(false), 15000)
       return () => clearTimeout(timer)
     }
   }, [showToast])
@@ -129,14 +129,14 @@ export function useAcceptTransfer() {
   // Efeito para esconder a notificação de permissão após um tempo
   useEffect(() => {
     if (showPermissionNotification) {
-      const timer = setTimeout(() => setShowPermissionNotification(false), 5000)
+      const timer = setTimeout(() => setShowPermissionNotification(false), 20000)
       return () => clearTimeout(timer)
     }
   }, [showPermissionNotification])
 
   // Efeito para disparar o confetti
   useEffect(() => {
-    if (showToast) setTimeout(() => showConfettiEffect({}), 600)
+    if (showToast) setTimeout(() => showConfettiEffect({}), 200)
   }, [showToast])
 
   return {
