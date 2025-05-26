@@ -25,28 +25,16 @@ const hashDB: Record<string, Record<string, string>> = {
   // Adicione outros hashes/objetos conforme necessário
 }
 
-function isBase64(str: string): boolean {
-  // Verifica se é um base64 válido (simples)
-  try {
-    return btoa(atob(str)) === str
-  } catch {
-    return false
-  }
-}
-
 export default function ComprovanteHashPage({ params }: { params: { hash: string } }) {
   const hash = params.hash
-  console.log(hash)
   // 1. Tenta buscar no banco persistido
   if (hashDB[hash]) {
     return <Comprovante searchParams={hashDB[hash]} />
   }
-  // 2. Tenta decodificar como base64 reversível
-  if (isBase64(hash)) {
-    const decoded = decodeReversibleHash(hash)
-    if (decoded) {
-      return <Comprovante searchParams={decoded} />
-    }
+  // 2. Tenta decodificar reversível SEM checar base64
+  const decoded = decodeReversibleHash(hash)
+  if (decoded) {
+    return <Comprovante searchParams={decoded} />
   }
   // 3. Não encontrado
   return (

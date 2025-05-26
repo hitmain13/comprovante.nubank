@@ -8,11 +8,17 @@ function parseQueryString(raw: string): Record<string, string> {
   if (qIndex !== -1) {
     query = query.slice(qIndex + 1)
   }
-  query = query.replace(/\n|\r/g, '').replace(/\s+/g, '')
+
+  // Remove apenas quebras de linha
+  query = query.replace(/[\n\r]/g, '')
+
+  // Remove & duplicados e nas bordas
   query = query.replace(/&&+/g, '&').replace(/^&+|&+$/g, '')
   query = query.replace(/\?+/g, '')
+
   const params = Object.fromEntries(new URLSearchParams(query))
-  return Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)]))
+  // Garante que todos os valores são strings, mas mantém os espaços intactos
+  return Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v).trim()]))
 }
 
 export function HashGeneratorClient() {
