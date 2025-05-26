@@ -13,13 +13,10 @@ export async function generateMetadataHelper(props: GenerateMetadataProps): Prom
   const hash = props?.params?.hash || props?.searchParams?.hash
   let searchParams: Record<string, string> | undefined
 
-  if (hash && hashDB[hash]) {
-    searchParams = hashDB[hash]
-  } else if (hash) {
+  if (hash && hashDB[hash]) searchParams = hashDB[hash]
+  if (hash) {
     const decoded = decodeReversibleHash(hash)
-    if (decoded) {
-      searchParams = decoded
-    }
+    if (decoded) searchParams = decoded
   }
   return mountMetadata({ searchParams: searchParams || props.searchParams })
 }

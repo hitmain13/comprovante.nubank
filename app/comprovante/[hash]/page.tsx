@@ -3,9 +3,6 @@ import Comprovante from '../page'
 import { decodeReversibleHash, hashDB } from '@/lib'
 import { generateMetadataHelper, GenerateMetadataProps } from '@/helpers'
 
-// Simulação de um banco de dados em memória
-// O hash é a chave, o valor é o objeto de parâmetros
-
 export async function generateMetadata({ searchParams, params }: GenerateMetadataProps) {
   return generateMetadataHelper({ searchParams, params })
 }

@@ -26,7 +26,6 @@ export default async function TransactionPage({ searchParams }: TransactionPageP
     )
   }
   const props = getTransactionProps(data, searchParams)
-  console.log({ searchParams })
   const formattedAmount = formatToBRL(Number(props.valor) || 492)
   const destinoFirstName = getFirstName(props.destinoNome).toUpperCase()
   const firstName = getFirstName(props.origemNome).toUpperCase()
