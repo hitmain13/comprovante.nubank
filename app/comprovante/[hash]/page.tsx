@@ -1,7 +1,6 @@
-import { notFound } from 'next/navigation'
+import { generateMetadataHelper, GenerateMetadataProps } from '@/helpers'
 import Comprovante from '../page'
 import { decodeReversibleHash, hashDB } from '@/lib'
-import { generateMetadataHelper, GenerateMetadataProps } from '@/helpers'
 
 export async function generateMetadata({ searchParams, params }: GenerateMetadataProps) {
   return generateMetadataHelper({ searchParams, params })

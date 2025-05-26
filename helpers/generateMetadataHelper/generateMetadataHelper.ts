@@ -31,5 +31,6 @@ async function mountMetadata({ searchParams }: GenerateMetadataProps): Promise<M
     description:
       'Tap to Pay | Nubank - Faça transações e pagamentos de forma rápida e eficiente 24 horas por dia pela Nubank.',
     generator: 'Matsu.dev',
+    openGraph: { images: ['/flight-money.png'] },
   }
 }
