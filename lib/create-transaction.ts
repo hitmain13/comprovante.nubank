@@ -1,16 +1,16 @@
 import { apiFetch } from './api'
 
-export interface CreateComprovantePayload {
+export interface CreateTransactionProps {
   payload: Record<string, any>
   latitude?: number
   longitude?: number
 }
 
-export async function createComprovante({
+export async function createTransaction({
   payload,
   latitude,
   longitude,
-}: CreateComprovantePayload): Promise<{ hash: string }> {
+}: CreateTransactionProps): Promise<{ hash: string }> {
   return apiFetch<{ hash: string }>(
     `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/comprovante`,
     {

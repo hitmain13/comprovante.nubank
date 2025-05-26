@@ -73,7 +73,7 @@ function TransactionTicket({
         </div>
         <div className="w-full border-t border-dashed border-gray-300"></div>
         <div className="p-4 px-6 flex flex-col items-center">
-          <AcceptTransferButton payload={payload} />
+          <AcceptTransferButton />
         </div>
       </div>
     </div>
