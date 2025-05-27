@@ -27,7 +27,7 @@ async function mountMetadata({ searchParams }: GenerateMetadataProps): Promise<M
   const firstName = getFirstName(props.origemNome)
 
   return {
-    title: `Nubank: ${firstName} está enviando uma transferência para você!`,
+    title: `${firstName} está enviando uma transferência para você!`,
     description:
       'Tap to Pay | Nubank - Faça transações e pagamentos de forma rápida e eficiente 24 horas por dia pela Nubank.',
     generator: 'Matsu.dev',
