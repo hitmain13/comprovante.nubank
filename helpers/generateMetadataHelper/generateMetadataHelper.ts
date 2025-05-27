@@ -10,7 +10,7 @@ export type GenerateMetadataProps = {
 }
 
 export async function generateMetadataHelper(props: GenerateMetadataProps): Promise<Metadata> {
-  const hash = props?.params?.hash || props?.searchParams?.hash
+  const hash = (await props?.params?.hash) || (await props?.searchParams?.hash)
   let searchParams: Record<string, string> | undefined
 
   if (hash && hashDB[hash]) searchParams = hashDB[hash]
@@ -34,7 +34,7 @@ async function mountMetadata({ searchParams }: GenerateMetadataProps): Promise<M
     openGraph: {
       images: [
         {
-          url: '/nubank.avif',
+          url: 'https://www.mundorh.com.br/wp-content/uploads/2021/05/Novo-Logo-002.jpg',
           width: 1200,
           height: 630,
           alt: 'Nubank',
@@ -45,13 +45,10 @@ async function mountMetadata({ searchParams }: GenerateMetadataProps): Promise<M
       card: 'summary_large_image',
       images: [
         {
-          url: '/nubank.avif',
+          url: 'https://www.mundorh.com.br/wp-content/uploads/2021/05/Novo-Logo-002.jpg',
           alt: 'Nubank',
         },
       ],
-    },
-    icons: {
-      icon: '/favicon.ico',
     },
   }
 }

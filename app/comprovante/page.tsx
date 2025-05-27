@@ -16,7 +16,7 @@ export async function generateMetadata({ searchParams, params }: GenerateMetadat
 type TransactionPageProps = { searchParams: Record<string, string> }
 
 export default async function TransactionPage({ searchParams }: TransactionPageProps) {
-  const hash = searchParams.hash || null
+  const hash = (await searchParams.hash) || null
   const data = await fetchTransaction(hash)
   if (hash && !data) {
     return (
