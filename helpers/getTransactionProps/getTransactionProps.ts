@@ -9,7 +9,7 @@ export function getTransactionProps(
     valor: data?.valor || searchParams.valor || '492,00',
     pixKey: data?.pixKey || searchParams.pix || '11978452751',
     horario: data?.horario || searchParams.horario || '15:19',
-    origemNome: data?.origemNome || searchParams.origem_nome || 'Maria Luiza Marques Salles',
+    origemNome: data?.origemNome || searchParams.origem_nome || 'Fabio Marques Salles',
     origemInstituicao:
       data?.origemInstituicao || searchParams.origem_instituicao || 'NU PAGAMENTOS - IP',
     origemAgencia: data?.origemAgencia || searchParams.origem_agencia || '0001',
