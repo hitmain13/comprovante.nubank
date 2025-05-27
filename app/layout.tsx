@@ -8,6 +8,30 @@ export const metadata = {
   icons: {
     icon: 'https://www.datocms-assets.com/120597/1741817368-favicon.ico?auto=format&h=96&w=96',
   },
+  openGraph: {
+    title: 'Nubank - Reinventando a relação das pessoas com o dinheiro',
+    description: 'Conta digital, cartão de crédito sem anuidade e muito mais. Tudo em um só app.',
+    siteName: 'Nome do site',
+    images: [
+      {
+        url: 'https://www.mundorh.com.br/wp-content/uploads/2021/05/Novo-Logo-002.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Descrição da imagem',
+      },
+    ],
+    locale: 'pt_BR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [
+      {
+        url: 'https://www.mundorh.com.br/wp-content/uploads/2021/05/Novo-Logo-002.jpg',
+        alt: 'Nubank',
+      },
+    ],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
