@@ -1,31 +1,85 @@
-import { headers } from 'next/headers'
 import { ApiErrorFactory } from './api-error-factory'
+import {
+  ApiResponse,
+  CreateHashParams,
+  DeleteHashResponse,
+  Hash,
+  Message,
+  TransactionDTO,
+} from './types'
 
-type CreateHashParams = {
-  params: Record<string, string>
+interface IApiClient {
+  createHash(params: CreateHashParams): Promise<Hash>
+  getHash(hash: string): Promise<Hash>
+  deleteHash(hash: string): Promise<DeleteHashResponse>
+  deleteAllHashes(): Promise<Message>
 }
 
-type CreateHashResponse = { hash: string }
+export class ApiClient implements IApiClient {
+  public async createHash({ params }: CreateHashParams): Promise<Hash> {
+    const url = `${ApiClient.getBaseUrl()}/transfer`
+    const options = ApiClient.getBodyParams(params)
+    return ApiClient.sendRequest<Hash>(url, options)
+  }
 
-export class ApiClient {
-  private static getBodyParams(params: Record<string, string>) {
+  public async getHash(hash: string): Promise<TransactionDTO> {
+    const url = `${ApiClient.getBaseUrl()}/transfer/${hash}`
+    return ApiClient.sendRequest<TransactionDTO>(url, {
+      method: 'GET',
+      headers: ApiClient.getJsonHeaders(),
+    })
+  }
+
+  public async deleteHash(hash: string): Promise<DeleteHashResponse> {
+    const url = `${ApiClient.getBaseUrl()}/transfer/${hash}`
+    const options = ApiClient.getDeleteOptions()
+    return ApiClient.sendRequest<DeleteHashResponse>(url, options)
+  }
+
+  public async deleteAllHashes(): Promise<Message> {
+    const url = `${ApiClient.getBaseUrl()}/transfer`
+    const options = ApiClient.getDeleteOptions()
+    return ApiClient.sendRequest<Message>(url, options)
+  }
+
+  private static getAuthorizationHeader() {
+    return `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+  }
+
+  private static getBaseUrl() {
+    return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+  }
+
+  private static async sendRequest<T>(url: string, options: RequestInit): Promise<ApiResponse<T>> {
+    const res = await fetch(url, options)
+
+    if (res.ok) {
+      return res.json() as Promise<ApiResponse<T>>
+    }
+
+    const errorText = await res.text()
+    throw ApiErrorFactory.create(errorText, res.status)
+  }
+
+  private static getJsonHeaders(): HeadersInit {
     return {
-      method: 'POST',
-      body: JSON.stringify(params),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      'Content-Type': 'application/json',
+      Authorization: this.getAuthorizationHeader(),
     }
   }
 
-  private static getEndpoint() {
-    return `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/transfer`
+  private static getBodyParams(params: Record<string, string>): RequestInit {
+    return {
+      method: 'POST',
+      body: JSON.stringify(params),
+      headers: this.getJsonHeaders(),
+    }
   }
 
-  public static async createHash({ params }: CreateHashParams): Promise<CreateHashResponse> {
-    const res = await fetch(this.getEndpoint(), this.getBodyParams(params))
-    if (res.ok) return await res.json()
-
-    throw ApiErrorFactory.create(await res.text(), res.status)
+  private static getDeleteOptions(): RequestInit {
+    return {
+      method: 'DELETE',
+      headers: this.getJsonHeaders(),
+    }
   }
 }

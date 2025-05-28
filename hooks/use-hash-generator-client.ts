@@ -7,6 +7,8 @@ import { useState } from 'react'
 export const useHashGeneratorClient = () => {
   const [query, setQuery] = useState(defaultTextAreaValue)
   const [hash, setHash] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false)
   const [url, setUrl] = useState('')
   const [copied, setCopied] = useState(false)
   const [hashType, setHashType] = useState<'reversivel' | 'persistido'>('reversivel')
@@ -15,11 +17,14 @@ export const useHashGeneratorClient = () => {
     setHash(hash)
     setUrl(`/comprovante/${hash}`)
     setCopied(false)
+    stopLoading()
   }
 
   async function handleGenerate() {
+    startLoading()
     const params = parseQueryString(query)
-    const res = await ApiClient.createHash({ params })
+    const apiClient = new ApiClient()
+    const res = await apiClient.createHash({ params })
     if (res?.hash) return updateHash(res.hash)
 
     const hashStr =
@@ -27,12 +32,36 @@ export const useHashGeneratorClient = () => {
     setHash(hashStr)
     setUrl(`/comprovante/${hashStr}`)
     setCopied(false)
+    stopLoading()
+  }
+
+  const handleDelete = async () => {
+    if (!hash) return
+    setDeleteLoading(true)
+    const apiClient = new ApiClient()
+    const res = await apiClient.deleteHash(hash)
+    if (res?.hash) {
+      setDeleteLoading(false)
+      return updateHash(res.hash)
+    }
+    setDeleteLoading(false)
+  }
+
+  const handleDeleteAll = async () => {
+    setDeleteLoading(true)
+    const apiClient = new ApiClient()
+    const res = await apiClient.deleteAllHashes()
+    setDeleteLoading(false)
   }
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.origin + url)
     setCopied(true)
   }
+
+  const startLoading = () => setLoading(true)
+  const stopLoading = () => setLoading(false)
+
   return {
     query,
     setQuery,
@@ -44,5 +73,9 @@ export const useHashGeneratorClient = () => {
     setHashType,
     handleGenerate,
     handleCopy,
+    loading,
+    deleteLoading,
+    handleDelete,
+    handleDeleteAll,
   }
 }

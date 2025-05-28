@@ -1,16 +1,18 @@
 import { generateMetadataHelper, GenerateMetadataProps } from '@/helpers'
 import Comprovante from '../page'
-import { decodeReversibleHash, hashDB } from '@/lib'
+import { decodeReversibleHash } from '@/lib'
+import { ApiClient } from '@/helpers/api/api-client'
 
 export async function generateMetadata({ searchParams, params }: GenerateMetadataProps) {
   return generateMetadataHelper({ searchParams, params })
 }
 
-export default function ComprovanteHashPage({ params }: { params: { hash: string } }) {
-  const hash = params.hash
+export default async function ComprovanteHashPage({ params }: { params: { hash: string } }) {
+  const apiClient = new ApiClient()
+  const hash = await apiClient.getHash(params.hash)
   // 1. Tenta buscar no banco persistido
-  if (hashDB[hash]) {
-    return <Comprovante searchParams={hashDB[hash]} />
+  if (hash) {
+    return <Comprovante searchParams={hash} />
   }
   // 2. Tenta decodificar reversível SEM checar base64
   const decoded = decodeReversibleHash(hash)

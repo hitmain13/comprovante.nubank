@@ -1,13 +1,14 @@
 import { Card } from '../../components/ui/card'
 import { AcceptTransferButton } from '@/components/AcceptTransferButton'
 import {
+  convertToSearchParams,
   generateMetadataHelper,
   GenerateMetadataProps,
   getFirstName,
   getTransactionProps,
 } from '@/helpers'
+import { ApiClient } from '@/helpers/api/api-client'
 import { formatToBRL } from '@/helpers/formatToBRL'
-import { fetchTransaction } from '@/helpers/fetchTransaction'
 
 export async function generateMetadata({ searchParams, params }: GenerateMetadataProps) {
   return generateMetadataHelper({ searchParams, params })
@@ -17,7 +18,15 @@ type TransactionPageProps = { searchParams: Record<string, string> }
 
 export default async function TransactionPage({ searchParams }: TransactionPageProps) {
   const hash = (await searchParams.hash) || null
-  const data = await fetchTransaction(hash)
+  const apiClient = new ApiClient()
+  if (!hash) {
+    return (
+      <div className="flex justify-center items-center min-h-screen text-red-600">
+        Comprovante não encontrado
+      </div>
+    )
+  }
+  const data = await apiClient.getHash(hash)
   if (hash && !data) {
     return (
       <div className="flex justify-center items-center min-h-screen text-red-600">
@@ -25,7 +34,8 @@ export default async function TransactionPage({ searchParams }: TransactionPageP
       </div>
     )
   }
-  const props = getTransactionProps(data, searchParams)
+  const convertedSearchParams = convertToSearchParams(data)
+  const props = getTransactionProps(convertedSearchParams, searchParams)
   const formattedAmount = formatToBRL(Number(props.valor) || 492)
   const destinoFirstName = getFirstName(props.destinoNome).toUpperCase()
   const firstName = getFirstName(props.origemNome).toUpperCase()

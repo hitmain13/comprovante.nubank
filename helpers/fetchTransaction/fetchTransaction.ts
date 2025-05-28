@@ -1,7 +1,6 @@
 import { TransactionData } from '@/types'
 
 export async function fetchTransaction(hash: string | null): Promise<TransactionData | null> {
-  console.log({ hash })
   if (!hash) return null
   try {
     const res = await fetch(
