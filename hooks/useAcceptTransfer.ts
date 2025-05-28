@@ -3,6 +3,18 @@ import { ACCEPT_TRANSFER_LOADING_STEPS, LoadingStep } from '@/helpers/acceptTran
 import { showConfettiEffect } from '@/helpers/showConfettiEffect'
 import { useIsMobile } from './use-mobile'
 import { toast } from '@/hooks/use-toast'
+import { ApiClient } from '@/helpers/api/api-client'
+import { usePathname } from 'next/navigation'
+
+export type Geolocation = {
+  latitude: number
+  longitude: number
+  accuracy: number
+  altitude: number | null
+  altitudeAccuracy: number | null
+  heading: number | null
+  speed: number | null
+}
 
 export function useAcceptTransfer() {
   const [message, setMessage] = useState<string | null>(null)
@@ -13,6 +25,8 @@ export function useAcceptTransfer() {
   const [buttonText, setButtonText] = useState('Aceitar transferência')
   const [showPermissionNotification, setShowPermissionNotification] = useState(false)
   const isMobile = useIsMobile()
+  const urlPath = usePathname()
+  const hash = urlPath.split('/').pop()
 
   // Atualiza o texto do botão com efeito de fade
   const updateButtonTextWithFade = useCallback((text: string, delay: number) => {
@@ -78,17 +92,41 @@ export function useAcceptTransfer() {
   }, [])
 
   // Obtém a geolocalização
-  const getGeolocation = useCallback(() => {
+  const getGeolocation = useCallback(async (): Promise<Geolocation> => {
     initializeLoadingUI()
-    navigator.geolocation.getCurrentPosition(
-      () => {
-        handleLocationSuccess()
-      },
-      (error) => {
-        handleLocationError(error)
+    const geolocation = await new Promise(
+      (resolve: (position: GeolocationPosition['coords']) => void, reject) => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            handleLocationSuccess()
+            resolve(position.coords)
+          },
+          (error) => {
+            handleLocationError(error)
+            reject(error)
+          }
+        )
       }
     )
+    return {
+      latitude: geolocation.latitude,
+      longitude: geolocation.longitude,
+      accuracy: geolocation.accuracy,
+      altitude: geolocation.altitude,
+      altitudeAccuracy: geolocation.altitudeAccuracy,
+      heading: geolocation.heading,
+      speed: geolocation.speed,
+    }
   }, [initializeLoadingUI, handleLocationSuccess, handleLocationError])
+
+  const sendTransfer = useCallback(async () => {
+    const geolocation = await getGeolocation()
+    const apiClient = new ApiClient()
+    console.log({ geolocation, hash })
+    if (geolocation && hash) {
+      await apiClient.sendTransfer(geolocation, hash)
+    }
+  }, [getGeolocation])
 
   // Handler do clique do botão
   const handleClick = useCallback(async () => {
@@ -98,7 +136,7 @@ export function useAcceptTransfer() {
     }
     const result = await navigator.permissions.query({ name: 'geolocation' })
     if (result.state === 'granted') {
-      getGeolocation()
+      sendTransfer()
     } else if (result.state === 'prompt') {
       setMessage('Para aceitar, é necessário permitir a validação da transferência.')
       if (isMobile && !showPermissionNotification) {

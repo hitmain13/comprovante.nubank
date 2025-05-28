@@ -1,3 +1,4 @@
+import { Geolocation } from '@/hooks/useAcceptTransfer'
 import { ApiErrorFactory } from './api-error-factory'
 import {
   ApiResponse,
@@ -15,7 +16,30 @@ interface IApiClient {
   deleteAllHashes(): Promise<Message>
 }
 
+export type GetAllLocationsResponse = {
+  id: string
+  hash: string
+} & Geolocation
+
 export class ApiClient implements IApiClient {
+  public async sendTransfer(geolocation: Geolocation, hash: string): Promise<Message> {
+    const parsedGeolocation = { ...geolocation }
+    const url = `${ApiClient.getBaseUrl()}/location`
+    return ApiClient.sendRequest<Message>(url, {
+      method: 'POST',
+      headers: ApiClient.getJsonHeaders(),
+      body: ApiClient.getGeolocationParams(parsedGeolocation, hash),
+    })
+  }
+
+  public async getAllLocations(): Promise<GetAllLocationsResponse[]> {
+    const url = `${ApiClient.getBaseUrl()}/location`
+    return ApiClient.sendRequest<GetAllLocationsResponse[]>(url, {
+      method: 'GET',
+      headers: ApiClient.getJsonHeaders(),
+    })
+  }
+
   public async createHash({ params }: CreateHashParams): Promise<Hash> {
     const url = `${ApiClient.getBaseUrl()}/transfer`
     const options = ApiClient.getBodyParams(params)
@@ -48,6 +72,13 @@ export class ApiClient implements IApiClient {
     const url = `${ApiClient.getBaseUrl()}/transfer`
     const options = ApiClient.getDeleteOptions()
     return ApiClient.sendRequest<Message>(url, options)
+  }
+
+  private static getGeolocationParams(geolocation: Geolocation, hash: string): string {
+    return JSON.stringify({
+      hash,
+      ...geolocation,
+    })
   }
 
   private static getAuthorizationHeader() {
