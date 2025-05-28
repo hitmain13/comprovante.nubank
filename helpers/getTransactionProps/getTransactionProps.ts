@@ -2,7 +2,7 @@ import { maskCPF } from '../maskCPF'
 import { PortugueseTransactionDTO } from '../api/types'
 
 export function getTransactionProps(
-  data: PortugueseTransactionDTO | null,
+  data: Record<string, string> | null,
   searchParams: Record<string, string>
 ) {
   return {

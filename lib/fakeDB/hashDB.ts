@@ -1,5 +1,4 @@
 export const hashDB: Record<string, Record<string, string>> = {
-  // Exemplo: hash gerado para valor=1234.56&pix=11999999999&origem_nome=João
   '4f2k9z1': {
     valor: '1234.56',
     pix: '11999999991',
@@ -16,5 +15,4 @@ export const hashDB: Record<string, Record<string, string>> = {
     destino_cpf: '987.654.321-00',
     transacao_id: 'ABC123XYZ987',
   },
-  // Adicione outros hashes/objetos conforme necessário
 }

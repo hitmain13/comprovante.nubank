@@ -1,8 +1,9 @@
 import { Metadata } from 'next/types'
-import { fetchTransaction } from '../fetchTransaction'
 import { getTransactionProps } from '../getTransactionProps'
 import { getFirstName } from '../getFirstName'
-import { decodeReversibleHash, hashDB } from '@/lib'
+import { decodeReversibleHash } from '@/lib'
+import { ApiClient } from '../api/api-client'
+import { convertToSearchParams } from '../convertToSearchParams'
 
 export type GenerateMetadataProps = {
   searchParams: Record<string, string>
@@ -13,7 +14,11 @@ export async function generateMetadataHelper(props: GenerateMetadataProps): Prom
   const hash = (await props?.params?.hash) || (await props?.searchParams?.hash)
   let searchParams: Record<string, string> | undefined
 
-  if (hash && hashDB[hash]) searchParams = hashDB[hash]
+  if (hash) {
+    const apiClient = new ApiClient()
+    const data = await apiClient.getHash(hash)
+    if (data) searchParams = convertToSearchParams(data)
+  }
   if (hash) {
     const decoded = decodeReversibleHash(hash)
     if (decoded) searchParams = decoded
@@ -22,8 +27,14 @@ export async function generateMetadataHelper(props: GenerateMetadataProps): Prom
 }
 
 async function mountMetadata({ searchParams }: GenerateMetadataProps): Promise<Metadata> {
-  const data = await fetchTransaction(searchParams?.hash || null)
-  const props = getTransactionProps(data, searchParams)
+  console.log('searchParams', await searchParams)
+  if (!searchParams || Object.keys(searchParams).length === 0)
+    return {
+      title: 'Transferência não encontrada',
+      description: 'A transferência não foi encontrada.',
+      generator: 'Matsu.dev',
+    }
+  const props = getTransactionProps(searchParams, searchParams)
   const firstName = getFirstName(props.origemNome)
 
   return {

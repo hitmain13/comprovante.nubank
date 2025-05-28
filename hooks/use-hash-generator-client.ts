@@ -50,7 +50,7 @@ export const useHashGeneratorClient = () => {
   const handleDeleteAll = async () => {
     setDeleteLoading(true)
     const apiClient = new ApiClient()
-    const res = await apiClient.deleteAllHashes()
+    await apiClient.deleteAllHashes()
     setDeleteLoading(false)
   }
 
