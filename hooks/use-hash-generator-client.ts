@@ -13,7 +13,8 @@ export const useHashGeneratorClient = () => {
   const [copied, setCopied] = useState(false)
   const [hashType, setHashType] = useState<'reversivel' | 'persistido'>('reversivel')
 
-  const updateHash = (hash: string) => {
+  const updateHash = (hash: string | Promise<string | undefined>) => {
+    if (!hash || typeof hash !== 'string') return
     setHash(hash)
     setUrl(`/comprovante/${hash}`)
     setCopied(false)
@@ -24,25 +25,35 @@ export const useHashGeneratorClient = () => {
     startLoading()
     const params = parseQueryString(query)
     const apiClient = new ApiClient()
-    const res = await apiClient.createHash({ params })
-    if (res?.hash) return updateHash(res.hash)
 
     const hashStr =
       hashType === 'reversivel' ? generateReversibleHash(params) : generatePersistedHash(params)
-    setHash(hashStr)
-    setUrl(`/comprovante/${hashStr}`)
-    setCopied(false)
-    stopLoading()
+
+    try {
+      const res = await apiClient.createHash({ params })
+
+      if (res?.hash) {
+        return updateHash(res.hash)
+      }
+    } catch (error) {
+      console.warn('Erro ao gerar hash via API, usando fallback local:', error)
+    }
+
+    return updateHash(hashStr)
   }
 
   const handleDelete = async () => {
-    if (!hash) return
-    setDeleteLoading(true)
-    const apiClient = new ApiClient()
-    const res = await apiClient.deleteHash(hash)
-    if (res?.hash) {
-      setDeleteLoading(false)
-      return updateHash(res.hash)
+    try {
+      if (!hash) return
+      setDeleteLoading(true)
+      const apiClient = new ApiClient()
+      const res = await apiClient.deleteHash(hash)
+      if (res?.hash) {
+        setDeleteLoading(false)
+        return updateHash(res.hash)
+      }
+    } catch (error) {
+      console.warn('Erro ao deletar hash via API, usando fallback local:', error)
     }
     setDeleteLoading(false)
   }

@@ -30,6 +30,14 @@ export class ApiClient implements IApiClient {
     })
   }
 
+  public async getAllTransactions(): Promise<TransactionDTO[]> {
+    const url = `${ApiClient.getBaseUrl()}/transfer`
+    return ApiClient.sendRequest<TransactionDTO[]>(url, {
+      method: 'GET',
+      headers: ApiClient.getJsonHeaders(),
+    })
+  }
+
   public async deleteHash(hash: string): Promise<DeleteHashResponse> {
     const url = `${ApiClient.getBaseUrl()}/transfer/${hash}`
     const options = ApiClient.getDeleteOptions()

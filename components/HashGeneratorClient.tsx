@@ -30,15 +30,6 @@ export function HashGeneratorClient() {
       </a>
       <div className="bg-white rounded-lg shadow p-6 w-full max-w-md flex flex-col gap-4">
         <h1 className="text-xl font-bold mb-2">Gerador de Hash para Comprovante</h1>
-        <label className="text-sm font-medium">Tipo de hash:</label>
-        <select
-          className="border rounded p-2 text-sm"
-          value={hashType}
-          onChange={(e) => setHashType(e.target.value as 'reversivel' | 'persistido')}
-        >
-          <option value="reversivel">Reversível (base64, funciona em qualquer lugar)</option>
-          <option value="persistido">Persistido (hash curto, requer backend)</option>
-        </select>
         <label className="text-sm font-medium">
           Cole as querystrings ou URL (ex: chave1=valor1&chave2=valor2 ou /comprovante?...):
         </label>

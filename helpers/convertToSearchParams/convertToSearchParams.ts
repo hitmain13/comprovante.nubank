@@ -1,6 +1,8 @@
 import { PortugueseTransactionDTO, TransactionDTO } from '@/helpers/api/types'
 
-export const convertToSearchParams = (transaction: TransactionDTO): PortugueseTransactionDTO => {
+export const convertToSearchParams = (
+  transaction: Record<string, string>
+): PortugueseTransactionDTO => {
   return {
     valor: transaction.value,
     pix: transaction.pix,

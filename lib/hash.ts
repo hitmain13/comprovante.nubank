@@ -1,3 +1,5 @@
+import { ApiClient } from '@/helpers/api/api-client'
+
 export function generateReversibleHash(params: Record<string, string>): string {
   return encodeURIComponent(btoa(encodeURIComponent(JSON.stringify(params))))
 }
@@ -11,12 +13,16 @@ export function decodeReversibleHash(hash: string): Record<string, string> | nul
   }
 }
 
-export function generatePersistedHash(params: Record<string, string>): string {
-  const json = JSON.stringify(params)
-  let hashNum = 0
-  for (let i = 0; i < json.length; i++) {
-    hashNum = (hashNum << 5) - hashNum + json.charCodeAt(i)
-    hashNum |= 0
-  }
-  return Math.abs(hashNum).toString(36)
+export async function generatePersistedHash(
+  params: Record<string, string>
+): Promise<string | undefined> {
+  const apiClient = new ApiClient()
+  try {
+    const res = await apiClient.createHash({ params })
+
+    if (res?.hash) {
+      return res.hash
+    }
+  } catch (error) {}
+  return
 }

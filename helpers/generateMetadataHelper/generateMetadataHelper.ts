@@ -28,7 +28,7 @@ export async function generateMetadataHelper(props: GenerateMetadataProps): Prom
 
 async function mountMetadata({ searchParams }: GenerateMetadataProps): Promise<Metadata> {
   console.log('searchParams', await searchParams)
-  if (!searchParams || Object.keys(searchParams).length === 0)
+  if (!searchParams || Object?.keys(searchParams)?.length === 0)
     return {
       title: 'Transferência não encontrada',
       description: 'A transferência não foi encontrada.',
