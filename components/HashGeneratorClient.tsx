@@ -1,47 +1,10 @@
 'use client'
-import { useState } from 'react'
-import { generateReversibleHash, generatePersistedHash } from '@/lib/hash'
-
-function parseQueryString(raw: string): Record<string, string> {
-  let query = raw.trim()
-  const qIndex = query.indexOf('?')
-  if (qIndex !== -1) {
-    query = query.slice(qIndex + 1)
-  }
-
-  // Remove apenas quebras de linha
-  query = query.replace(/[\n\r]/g, '')
-
-  // Remove & duplicados e nas bordas
-  query = query.replace(/&&+/g, '&').replace(/^&+|&+$/g, '')
-  query = query.replace(/\?+/g, '')
-
-  const params = Object.fromEntries(new URLSearchParams(query))
-  // Garante que todos os valores são strings, mas mantém os espaços intactos
-  return Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v).trim()]))
-}
+import { TextArea } from './TextArea'
+import { useHashGeneratorClient } from '@/hooks'
 
 export function HashGeneratorClient() {
-  const [query, setQuery] = useState('')
-  const [hash, setHash] = useState('')
-  const [url, setUrl] = useState('')
-  const [copied, setCopied] = useState(false)
-  const [hashType, setHashType] = useState<'reversivel' | 'persistido'>('reversivel')
-
-  function handleGenerate() {
-    const params = parseQueryString(query)
-    const hashStr =
-      hashType === 'reversivel' ? generateReversibleHash(params) : generatePersistedHash(params)
-    setHash(hashStr)
-    setUrl(`/comprovante/${hashStr}`)
-    setCopied(false)
-  }
-
-  function handleCopy() {
-    navigator.clipboard.writeText(window.location.origin + url)
-    setCopied(true)
-  }
-
+  const { query, setQuery, hash, url, copied, hashType, setHashType, handleGenerate, handleCopy } =
+    useHashGeneratorClient()
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
       <div className="bg-white rounded-lg shadow p-6 w-full max-w-md flex flex-col gap-4">
@@ -58,11 +21,9 @@ export function HashGeneratorClient() {
         <label className="text-sm font-medium">
           Cole as querystrings ou URL (ex: chave1=valor1&chave2=valor2 ou /comprovante?...):
         </label>
-        <textarea
-          className="border rounded p-2 min-h-[80px] text-sm"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="valor=1234.56&pix=11999999999&origem_nome=João..."
+        <TextArea
+          query={query}
+          setQuery={setQuery}
         />
         <button
           className="bg-purple-600 text-white rounded p-2 font-semibold hover:bg-purple-700"

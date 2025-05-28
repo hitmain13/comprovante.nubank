@@ -1,0 +1,15 @@
+export const defaultTextAreaValue = `/comprovante?
+valor=3838,82
+&pix=11986271672
+&horario=00:26
+&origem_nome=Fabio da Silva
+&origem_instituicao=NU+PAGAMENTOS+-+IP
+&origem_agencia=0001
+&origem_conta=987654-3
+&origem_cpf=317.602.848-48
+&destino_nome=Yasmin+dos+Santos
+&destino_instituicao=NU+PAGAMENTOS+-+IP
+&destino_agencia=0001
+&destino_conta=112233-4
+&destino_cpf=987.654.321-12
+&transacao_id=E18326120202302270004a12b2dd7ba0`
