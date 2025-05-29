@@ -1,80 +1,13 @@
-'use client'
 import { GetAllLocationsResponse } from '@/helpers/api/api-client'
-import { useState } from 'react'
+import { logout } from '@/helpers/api/logout'
 
 export function ListAllLocationsSection({ locations }: { locations: GetAllLocationsResponse[] }) {
-  const [password, setPassword] = useState('')
-  const [accessAllowed, setAccessAllowed] = useState(false)
-  const [error, setError] = useState('')
   return (
     <Container>
       <Card>
-        {!accessAllowed && (
-          <PasswordInput
-            password={password}
-            setPassword={setPassword}
-            setAccessAllowed={setAccessAllowed}
-            error={error}
-            setError={setError}
-          />
-        )}
-        {accessAllowed && <LocationList locations={locations} />}
+        <LocationList locations={locations} />
       </Card>
     </Container>
-  )
-}
-
-function PasswordInput({
-  password,
-  setPassword,
-  setAccessAllowed,
-  error,
-  setError,
-}: {
-  password: string
-  setPassword: (password: string) => void
-  setAccessAllowed: (accessAllowed: boolean) => void
-  error: string
-  setError: (error: string) => void
-}) {
-  const [blocked, setBlocked] = useState(false)
-  const handleAccess = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (blocked) return
-    if (password !== process.env.NEXT_PUBLIC_LOCATION_PAGE_PASSWORD)
-      setError('Senha inválida. Tente novamente.')
-    setBlocked(true)
-    setTimeout(() => {
-      setBlocked(false)
-      setError('')
-    }, 500)
-    if (password === process.env.NEXT_PUBLIC_LOCATION_PAGE_PASSWORD) {
-      setAccessAllowed(true)
-    }
-  }
-
-  return (
-    <div>
-      <form
-        className="flex flex-col gap-4"
-        onSubmit={handleAccess}
-      >
-        <label htmlFor="password">Senha</label>
-        <input
-          className="w-full p-2 border border-gray-300 rounded-md"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          className="bg-blue-500 text-white p-2 rounded-md"
-          type="submit"
-        >
-          Acessar
-        </button>
-        {error && <p className="text-red-500">{error}</p>}
-      </form>
-    </div>
   )
 }
 
@@ -108,6 +41,12 @@ const LocationList = ({ locations }: { locations: GetAllLocationsResponse[] }) =
           </ul>
         </>
       )}
+      <button
+        className="bg-red-500 text-white p-2 rounded"
+        onClick={logout}
+      >
+        Logout
+      </button>
     </>
   )
 }

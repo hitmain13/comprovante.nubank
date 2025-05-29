@@ -1,3 +1,5 @@
+export type SafeResponse<T> = { success: true; data: T } | { success: false; error: string }
+
 export type Hash = { hash: string }
 export type CreateHashParams = { params: Record<string, string> }
 export type Message = { message: string }
