@@ -4,14 +4,13 @@ import { serialize } from 'cookie'
 import { signJwt } from '@/helpers/jwt'
 
 export async function POST() {
-  // Aqui você validaria credenciais (ex: body com usuário/senha)
-  const token = signJwt({ access: true }) // Crie seu payload conforme necessário
+  const token = signJwt({ access: true })
 
   const cookie = serialize('locations_jwt', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    maxAge: 60 * 60, // 1 hora
+    maxAge: 60 * 60,
     sameSite: 'lax',
   })
 
