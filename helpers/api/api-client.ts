@@ -9,7 +9,7 @@ import {
   TransactionDTO,
 } from './types'
 import { safeRequest } from './http-client'
-import { ApiConfig } from './api-config'
+import { ApiConfig } from '@/app/api/fetch/route'
 
 export type GetAllLocationsResponse = {
   id: string

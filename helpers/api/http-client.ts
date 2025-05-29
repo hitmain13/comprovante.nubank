@@ -1,9 +1,10 @@
+import { fetchApi } from '@/app/api/fetch/route'
 import { ApiErrorFactory } from './api-error-factory'
 import { SafeResponse } from './types'
 
 export async function safeRequest<T>(url: string, options: RequestInit): Promise<SafeResponse<T>> {
   try {
-    const response = await fetch(url, options)
+    const response = await fetchApi(url, options)
 
     if (response.ok) {
       const data = await response.json()
