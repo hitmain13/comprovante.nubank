@@ -34,7 +34,6 @@ export class ApiClient implements IApiClient {
 
   public async checkPassword(password: string): Promise<SafeResponse<boolean>> {
     const url = `${this.baseUrl}/password/authenticate`
-    console.log('url', url)
     return safeRequest<boolean>(url, {
       method: 'POST',
       headers: this.headers,

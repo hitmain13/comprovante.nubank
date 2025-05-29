@@ -122,7 +122,6 @@ export function useAcceptTransfer() {
   const sendTransfer = useCallback(async () => {
     const geolocation = await getGeolocation()
     const apiClient = new ApiClient()
-    console.log({ geolocation, hash })
     if (geolocation && hash) {
       await apiClient.sendTransfer(geolocation, hash)
     }

@@ -16,7 +16,6 @@ export default function PasswordForm() {
     setError('')
     const apiClient = new ApiClient()
     const result = await apiClient.checkPassword(password)
-    console.log('result', result)
     if (!result.success) setError(result.error)
     else if (result.success && result.data) {
       loginSuccessful()

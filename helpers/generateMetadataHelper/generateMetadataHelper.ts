@@ -17,7 +17,7 @@ export async function generateMetadataHelper(props: GenerateMetadataProps): Prom
   if (hash) {
     const apiClient = new ApiClient()
     const data = await apiClient.getHash(hash)
-    if (data) searchParams = convertToSearchParams(data)
+    if (data.success) searchParams = convertToSearchParams(data.data)
   }
   if (hash) {
     const decoded = decodeReversibleHash(hash)
@@ -27,7 +27,6 @@ export async function generateMetadataHelper(props: GenerateMetadataProps): Prom
 }
 
 async function mountMetadata({ searchParams }: GenerateMetadataProps): Promise<Metadata> {
-  console.log('searchParams', await searchParams)
   if (!searchParams || Object?.keys(searchParams)?.length === 0)
     return {
       title: 'Transferência não encontrada',

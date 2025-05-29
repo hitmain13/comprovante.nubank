@@ -12,7 +12,6 @@ export const ApiConfig = {
 }
 
 export async function fetchApi(url: string, options: RequestInit) {
-  console.log('@@@@: ', ApiConfig.getBaseUrl(), ApiConfig.getAuthorizationHeader())
   const response = await fetch(url, {
     headers: ApiConfig.getJsonHeaders(),
     ...options,

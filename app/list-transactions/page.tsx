@@ -1,21 +1,25 @@
 import { ApiClient } from '@/helpers/api/api-client'
 import DeleteAllTransactions from './delete-all-transactions'
+import { NotFound } from '@/components/NotFound'
 
 export default async function ListTransactionsPage() {
   const apiClient = new ApiClient()
-  const transactions = await apiClient.getAllTransactions()
+  const response = await apiClient.getAllTransactions()
 
-  console.log(transactions)
+  if (!response.success) return <NotFound />
+
+  const transactions = response.data
+
   return (
     <Container>
       <Card>
-        <h1 className="text-2xl font-bold">Listagem de transações</h1>
+        <h1 className="text-2xl font-bold">Listagem de páginas de transferência</h1>
         {transactions?.length === 0 ? (
-          <p>Não há transações</p>
+          <p>Não há páginas de transferência</p>
         ) : (
           <>
             <div className="flex flex-col items-center justify-between my-4 gap-4">
-              <h2 className="text-lg font-bold">Total de transações: {transactions.length}</h2>
+              <h2 className="text-lg font-bold">Total de páginas: {transactions.length}</h2>
               <DeleteAllTransactions />
             </div>
             <ul className="flex flex-col gap-4">
