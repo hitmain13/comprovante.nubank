@@ -19,3 +19,5 @@ export async function POST() {
 
   return response
 }
+
+// Testar o backend deployado via local!

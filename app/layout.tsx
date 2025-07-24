@@ -1,5 +1,12 @@
 import type React from 'react'
+import { Nunito_Sans } from 'next/font/google'
 import '@/app/globals.css'
+
+const nunitoSans = Nunito_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-nunito-sans',
+})
 
 export const metadata = {
   title: 'Nubank - Reinventando a relação das pessoas com o dinheiro',
@@ -36,7 +43,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={nunitoSans.variable}>
       <head>
         <link
           rel="icon"
